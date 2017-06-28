@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/app_bar_toWatch"
+        android:icon="@android:drawable/btn_star"
+        android:title="Watch list"
+        app:showAsAction="ifRoom|withText" />
+
+    <item
+        android:id="@+id/app_bar_search"
+        android:icon="@drawable/ic_search_white24dp"
+        android:title="Search"
+        app:showAsAction="ifRoom|withText" />
+
+</menu>

@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name" translatable="false">Movie Library</string>
+    <string name="clear_list">Clear list</string>
+    <string name="description">Description:</string>
+    <string name="loading">Loading</string>
+    <string name="title">Title:</string>
+    <string name="director">Director:</string>
+    <string name="genre">Genre:</string>
+    <string name="year">Year:</string>
+    <string name="runtime">Runtime:</string>
+    <string name="actors">Actors:</string>
+    <string name="language">Language:</string>
+    <string name="country">Country:</string>
+    <string name="imdbrating">IMDB Rating:</string>
+    <string name="add_to_favourites">Add to favourites</string>
+    <string name="watched">Watched</string>
+    <string name="search">Search</string>
+    <string name="delete">Delete</string>
+    <string name="favourites_films">Favourites films</string>
+    <string name="watchlist">Watchlist</string>
+    <string name="biography">Biography:</string>
+    <string name="name">Name:</string>
+    <string name="birthday">Birthday:</string>
+    <string name="birthplace">Birthplace:</string>
+    <string name="deathday">Deathday:</string>
+    <string name="popularity">Popularity:</string>
+    <string name="homepage">Homepage:</string>
+    <string name="random_movie">Random movie</string>
+    <string name="turn_off">Turn off</string>
+    <string name="add_to_watch_list">Add to watch list</string>
+    <string name="wrongID">Wrong ID</string>
+    <string name="removedFromList">Removed from list</string>
+    <string name="cantRemoveFromList">Can\'t remove from the list</string>
+    <string name="existsMovie">Movie is already saved</string>
+    <string name="cantAddFilm">Can\'t add the movie</string>
+    <string name="movieAddedToList">The movie added to data base</string>
+    <string name="pictures">Pictures</string>
+    <string name="filmography">Filmography</string>
+    <string name="errorOccurred">Error occurred</string>
+    <string name="similarMovies">Similar movies</string>
+    <string name="mostPopularMovies">Most popular movies</string>
+    <string name="discover">Discover</string>
+    <string name="pleaseWait">Please wait</string>
+    <string name="mostPopularActors">Most popular actors</string>
+    <string name="production">Production:</string>
+    <string name="boxOffice" translatable="false">Box office:</string>
+    <string name="rating">Rating:</string>
+    <string name="most_popular_actors">sdf</string>
+    <string name="removeFromWatchList">Remove from watch list</string>
+    <string name="movieTitle">Movie title</string>
+    <string name="as">as</string>
+    <string name="noSearchResult">No search results</string>
+</resources>
