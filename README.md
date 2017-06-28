@@ -2,11 +2,13 @@
 
 # O projekcie
 Aplikacja umożliwia szczegółowy przegląd informacji o filmach i aktorach, wyszukiwanie filmów po tytule oraz dodawanie ich do listy do objerzenia.
+Aplikacja wykorzystuje web service [The Movie DB](https://www.themoviedb.org).
 
 # Technologie i biblioteki
 * Java
 * Android SDK
 * [Picasso](https://github.com/square/picasso)
+* [TheMovieDB API](https://github.com/holgerbrandl/themoviedbapi)
 
 # Funkcjonalnośći
 * tworzenie listy filmów do obejrzenia
