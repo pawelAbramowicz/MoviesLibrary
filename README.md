@@ -39,4 +39,4 @@ Aplikacja umożliwia szczegółowy przegląd informacji o filmach i aktorach, wy
 
 # Prezentacja aplikacji
  ![main screen](https://user-images.githubusercontent.com/29754301/27660208-a5338588-5c56-11e7-8888-7812b7f13a00.png =250x)
- ![](https://gyazo.com/eb5c5741b6a9a16c692170a41a49c858.png =250x250)
+ 
