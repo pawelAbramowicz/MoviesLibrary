@@ -38,7 +38,7 @@ Aplikacja wykorzystuje web service [The Movie DB](https://www.themoviedb.org).
     * lista aktorów, którzy grali w filmie
     * filmy podobne do wyświetlanego
 
-# Błędy w apliacji
+# Błędy w aplikacji
 W aktualnym stanie aplikacja przestaje działać przy braku połączenia z internetem oraz zdarza się, że próbuje zaalokować zbyt dużo pamięci.
 
 # Prezentacja aplikacji
