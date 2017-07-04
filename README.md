@@ -1,7 +1,7 @@
 # MoviesLibrary
 
 # O projekcie
-Aplikacja umożliwia szczegółowy przegląd informacji o filmach i aktorach, wyszukiwanie filmów po tytule oraz dodawanie ich do listy do objerzenia.
+Aplikacja umożliwia szczegółowy przegląd informacji o filmach i aktorach, wyszukiwanie filmów po tytule oraz dodawanie ich do listy do obejrzenia.
 Aplikacja wykorzystuje web service [The Movie DB](https://www.themoviedb.org).
 
 # Technologie i biblioteki
