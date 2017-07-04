@@ -9,6 +9,7 @@ Aplikacja wykorzystuje web service [The Movie DB](https://www.themoviedb.org).
 * Android SDK
 * [Picasso](https://github.com/square/picasso)
 * [TheMovieDB API](https://github.com/holgerbrandl/themoviedbapi)
+* [android-gif-drawable](https://github.com/koral--/android-gif-drawable)
 
 # Funkcjonalnośći
 * tworzenie listy filmów do obejrzenia
