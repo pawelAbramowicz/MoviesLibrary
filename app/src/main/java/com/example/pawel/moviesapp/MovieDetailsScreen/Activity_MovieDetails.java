@@ -1,4 +1,4 @@
-package com.example.pawel.moviesapp.MovieDetails;
+package com.example.pawel.moviesapp.MovieDetailsScreen;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -14,23 +14,31 @@ import com.example.pawel.moviesapp.Utilities.Variables;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import info.movito.themoviedbapi.model.Video;
 import info.movito.themoviedbapi.model.people.PersonCast;
 
 
 public class Activity_MovieDetails extends AppCompatActivity implements Fragment_MovieDetails.updateFragments {
 
-    private Button addToWatchListButton, removeFromWatchListButton;
     private Fragment_MovieVideos movieVideos_Fragment;
     private Fragment_ActorsInMovieDetails actorsInMovieDetails_Fragment;
     private Fragment_MovieDetails movieDetails_Fragment;
     private Fragment_SimilarMovies similarMovies_Fragment;
     private Fragment_Loading_Page loadingPage_Fragment;
 
+    @BindView(R.id.activityMovieDetails_addToWatchListButton)
+    Button addToWatchListButton;
+    @BindView(R.id.activityMovieDetails_removeFromWatchListButton)
+    Button removeFromWatchListButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
+        ButterKnife.bind(this);
 
         //find all used fragments
         movieVideos_Fragment = (Fragment_MovieVideos) getFragmentManager().findFragmentById(R.id.activityMovieDetails_videosFramgnet);
@@ -38,12 +46,6 @@ public class Activity_MovieDetails extends AppCompatActivity implements Fragment
         movieDetails_Fragment = (Fragment_MovieDetails) getFragmentManager().findFragmentById(R.id.activityMovieDetails_detailsFragment);
         similarMovies_Fragment = (Fragment_SimilarMovies) getFragmentManager().findFragmentById(R.id.activityMovieDetails_similarFragment);
         loadingPage_Fragment = (Fragment_Loading_Page) getFragmentManager().findFragmentById(R.id.activityMovieDetails_loadingFragment);
-
-        addToWatchListButton = (Button) findViewById(R.id.activityMovieDetails_addToWatchListButton);
-        removeFromWatchListButton = (Button) findViewById(R.id.activityMovieDetails_removeFromWatchListButton);
-
-        //adds actions after button click - add/remove movie from database
-        addListenersToButtons();
 
         //replace fragments
         FragmentManager fm = getFragmentManager();
@@ -54,50 +56,44 @@ public class Activity_MovieDetails extends AppCompatActivity implements Fragment
                 .commit();
     }
 
-    private void addListenersToButtons() {
-        //add movie to the watch list
-        addToWatchListButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //get information from intent
-                int movieID = getIntent().getIntExtra(Variables.INTENT_MOVIE_ID, 0);
-                String title = getIntent().getStringExtra(Variables.INTENT_MOVIE_TITLE);
-                String path = getIntent().getStringExtra(Variables.INTENT_MOVIE_POSTAR_PATH);
+    @OnClick(R.id.activityMovieDetails_addToWatchListButton)
+    public void addToWatchList() {
+        //get information from intent
+        int movieID = getIntent().getIntExtra(Variables.INTENT_MOVIE_ID, 0);
+        String title = getIntent().getStringExtra(Variables.INTENT_MOVIE_TITLE);
+        String path = getIntent().getStringExtra(Variables.INTENT_MOVIE_POSTAR_PATH);
 
-                //insert movie into data base
-                DataBase dataBase = new DataBase(getApplicationContext()).open();
-                long number = dataBase.insertMovie(movieID, title, path);
-                String result = dataBase.insertMovieResultInterpreter(number);
-                dataBase.close();
+        //insert movie into data base
+        DataBase dataBase = new DataBase(getApplicationContext()).open();
+        long number = dataBase.insertMovie(movieID, title, path);
+        String result = dataBase.insertMovieResultInterpreter(number);
+        dataBase.close();
 
-                //display result on toast
-                Toast toast = Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT);
-                toast.show();
+        //display result on toast
+        Toast toast = Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT);
+        toast.show();
 
-                //check movie containing in data base to show or hide add/remove button
-                checkContaining();
-            }
-        });
+        //check movie containing in data base to show or hide add/remove button
+        checkContaining();
+    }
 
-        //remove movie from watch list
-        removeFromWatchListButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                //get information from intent
-                int movieID = getIntent().getIntExtra(Variables.INTENT_MOVIE_ID, 0);
+    @OnClick(R.id.activityMovieDetails_removeFromWatchListButton)
+    public void removeFromWatchList() {
+        //get information from intent
+        int movieID = getIntent().getIntExtra(Variables.INTENT_MOVIE_ID, 0);
 
-                //remove movie from data base
-                DataBase dataBase = new DataBase(getApplicationContext()).open();
-                int number = dataBase.deleteMovie(movieID);
-                String result = dataBase.deleteMovieResultInterpreter(number);
-                dataBase.close();
+        //remove movie from data base
+        DataBase dataBase = new DataBase(getApplicationContext()).open();
+        int number = dataBase.deleteMovie(movieID);
+        String result = dataBase.deleteMovieResultInterpreter(number);
+        dataBase.close();
 
-                //display result on toast
-                Toast toast = Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT);
-                toast.show();
+        //display result on toast
+        Toast toast = Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT);
+        toast.show();
 
-                //check movie containing in data base to show or hide add/remove button
-                checkContaining();
-            }
-        });
+        //check movie containing in data base to show or hide add/remove button
+        checkContaining();
     }
 
     @Override

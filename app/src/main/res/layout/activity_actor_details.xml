@@ -24,21 +24,21 @@
 
             <fragment
                 android:id="@+id/activityActorDetails_actorFragment"
-                android:name="com.example.pawel.moviesapp.ActorDetails.Fragment_ActorDetails"
+                android:name="com.example.pawel.moviesapp.ActorDetailsScreen.Fragment_ActorDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <fragment
                 android:id="@+id/activityActorDetails_actorPlayedInMoviesFragment"
-                android:name="com.example.pawel.moviesapp.ActorDetails.Fragment_ActorPlayedInMovie"
+                android:name="com.example.pawel.moviesapp.ActorDetailsScreen.Fragment_ActorPlayedInMovie"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <fragment
                 android:id="@+id/activityActorDetails_actorImagesFragment"
-                android:name="com.example.pawel.moviesapp.ActorDetails.Fragment_ActorPhotos"
+                android:name="com.example.pawel.moviesapp.ActorDetailsScreen.Fragment_ActorPhotos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />

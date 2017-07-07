@@ -23,7 +23,7 @@
 
 
             <ImageView
-                android:id="@+id/imagePoster"
+                android:id="@+id/imagePosterResult"
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
@@ -38,7 +38,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/wyniktytul"
+                    android:id="@+id/titleResult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
@@ -46,32 +46,32 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/wynikoryginalnytytul"
+                    android:id="@+id/originalTitleResult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/loading"
                     android:textSize="10sp"/>
                 <TextView
-                    android:id="@+id/wynikgatunek"
+                    android:id="@+id/genreResult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/loading" />
 
 
                 <TextView
-                    android:id="@+id/wynikrokprodukcjiiczas"
+                    android:id="@+id/productionAndTimeResult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/loading" />
 
                 <TextView
-                    android:id="@+id/wynikJezyk"
+                    android:id="@+id/languageResult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/loading" />
 
                 <TextView
-                    android:id="@+id/wynikKraj"
+                    android:id="@+id/countryResult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/loading" />
@@ -98,13 +98,13 @@
 
 
                 <TextView
-                    android:id="@+id/wynikBoxOffice"
+                    android:id="@+id/boxOfficeResult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/loading" />
 
                 <TextView
-                    android:id="@+id/wynikImdbID"
+                    android:id="@+id/ratingResult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/loading" />
@@ -150,7 +150,7 @@
 
 
             <TextView
-                android:id="@+id/wynikopis"
+                android:id="@+id/descriptionResult"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/loading" />

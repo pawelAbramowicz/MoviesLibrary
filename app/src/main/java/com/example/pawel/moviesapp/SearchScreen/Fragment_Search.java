@@ -12,20 +12,23 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.pawel.moviesapp.MovieDetails.Activity_MovieDetails;
+import com.example.pawel.moviesapp.MovieDetailsScreen.Activity_MovieDetails;
 import com.example.pawel.moviesapp.R;
+import com.example.pawel.moviesapp.Utilities.InternetConnection;
 import com.example.pawel.moviesapp.Utilities.ListAdapter;
 import com.example.pawel.moviesapp.Utilities.Variables;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbSearch;
 import info.movito.themoviedbapi.model.MovieDb;
@@ -37,8 +40,6 @@ import info.movito.themoviedbapi.model.core.MovieResultsPage;
 
 public class Fragment_Search extends Fragment {
     private int preLast;
-    private TextView textView;
-    private ListView yourListView;
     private ListAdapter customAdapter;
     private List<MovieDb> moviesListElements = new ArrayList<MovieDb>();
     private int page = 1;
@@ -46,49 +47,39 @@ public class Fragment_Search extends Fragment {
     private String actualSearchingTitle = "";
     private AsyncCaller asyncCaller;
 
+    @BindView(R.id.search_noResultText)
+    TextView textView;
+    @BindView(R.id.search_searchField)
+    TextView searchField;
+    @BindView(R.id.list_view_search_list)
+    ListView yourListView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_search, parent, false);
+        View view = inflater.inflate(R.layout.fragment_search, parent, false);
+        ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @OnClick(R.id.search_searchButton)
+    void search() {
+        //hide keyboard and search movie after search button click
+        hideKeyboard(getActivity());
+        searchMovie();
+    }
+
+    @OnClick(R.id.search_clearButton)
+    void clearTextField() {
+        //clear edit searchField after click
+        searchField.setText("");
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         setRetainInstance(true);
-        textView = (TextView) getView().findViewById(R.id.search_noResultText);
 
-        //hide keyboard and search movie after search button click
-        Button button = (Button) getView().findViewById(R.id.search_searchButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                hideKeyboard(getActivity());
-                searchMovie();
-            }
-        });
-
-        //clear edit text after click
-        button = (Button) getView().findViewById(R.id.search_clearButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                EditText text = (EditText) getView().findViewById(R.id.search_searchField);
-                text.setText("");
-            }
-        });
-
-        yourListView = (ListView) getView().findViewById(R.id.list_view_search_list);
         customAdapter = new ListAdapter(getActivity().getApplicationContext(), R.layout.element_search_movie_row, moviesListElements);
         yourListView.setAdapter(customAdapter);
-
-        yourListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View v, int position, long l) {
-                MovieDb movie = (MovieDb) yourListView.getAdapter().getItem(position);
-                Intent intent = new Intent(getActivity(), Activity_MovieDetails.class);
-                intent.putExtra(Variables.INTENT_MOVIE_ID, movie.getId());
-                intent.putExtra(Variables.INTENT_MOVIE_TITLE, movie.getTitle());
-                intent.putExtra(Variables.INTENT_MOVIE_POSTAR_PATH, movie.getPosterPath());
-                startActivity(intent);
-            }
-        });
 
         yourListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -110,8 +101,7 @@ public class Fragment_Search extends Fragment {
         });
 
         //hide keyboard and search movie after search button click on keyboard
-        EditText text = (EditText) getView().findViewById(R.id.search_searchField);
-        text.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -123,6 +113,17 @@ public class Fragment_Search extends Fragment {
             }
         });
     }
+
+    @OnItemClick(R.id.list_view_search_list)
+    public void startMovieDetailsActivity(int position) {
+        MovieDb movie = (MovieDb) yourListView.getAdapter().getItem(position);
+        Intent intent = new Intent(getActivity(), Activity_MovieDetails.class);
+        intent.putExtra(Variables.INTENT_MOVIE_ID, movie.getId());
+        intent.putExtra(Variables.INTENT_MOVIE_TITLE, movie.getTitle());
+        intent.putExtra(Variables.INTENT_MOVIE_POSTAR_PATH, movie.getPosterPath());
+        startActivity(intent);
+    }
+
 
     public void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -136,13 +137,18 @@ public class Fragment_Search extends Fragment {
     }
 
     public void showMoviesFromNextPage() {
-        asyncCaller = new AsyncCaller();
-        asyncCaller.execute(actualSearchingTitle);
+        //detect internet and show the data
+        if(InternetConnection.isNetworkStatusAvialable (getActivity().getApplicationContext())) {
+            asyncCaller = new AsyncCaller();
+            asyncCaller.execute(actualSearchingTitle);
+        } else {
+            Toast.makeText(getActivity().getApplicationContext(),
+                    "Please check your Internet Connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void searchMovie() {
-        EditText text = (EditText) getView().findViewById(R.id.search_searchField);
-        actualSearchingTitle = text.getText().toString();
+        actualSearchingTitle = searchField.getText().toString();
 
         if (!previousSearchingTitle.equals(actualSearchingTitle) && !actualSearchingTitle.equals("")) {
             //move selection to the top
@@ -151,8 +157,14 @@ public class Fragment_Search extends Fragment {
             moviesListElements.clear();
             page = 1;
             //search movies
-            asyncCaller = new AsyncCaller();
-            asyncCaller.execute(actualSearchingTitle);
+            //detect internet and show the data
+            if(InternetConnection.isNetworkStatusAvialable (getActivity().getApplicationContext())) {
+                asyncCaller = new AsyncCaller();
+                asyncCaller.execute(actualSearchingTitle);
+            } else {
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Please check your Internet Connection", Toast.LENGTH_SHORT).show();
+            }
         }
         previousSearchingTitle = actualSearchingTitle;
     }

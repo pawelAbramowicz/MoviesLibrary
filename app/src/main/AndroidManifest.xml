@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.pawel.moviesapp">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -21,18 +21,17 @@
         </activity>
 
         <activity
-            android:name=".MovieDetails.Activity_MovieDetails"
+            android:name=".MovieDetailsScreen.Activity_MovieDetails"
             android:label="Film details"></activity>
         <activity
             android:name=".SearchScreen.Activity_Search"
             android:label="Search movie"></activity>
-
         <activity
-            android:name=".ActorDetails.Activity_ActorDetails"
+            android:name=".ActorDetailsScreen.Activity_ActorDetails"
             android:label="Actor details"></activity>
         <activity
             android:name=".WatchListScreen.Activity_WatchList"
             android:label="Watch list"></activity>
-    </application><!-- android:theme="@style/Theme.AppCompat.Dialog"-->
+    </application>
 
 </manifest>

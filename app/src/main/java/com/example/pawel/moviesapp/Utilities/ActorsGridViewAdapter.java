@@ -13,6 +13,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import info.movito.themoviedbapi.model.people.PersonPeople;
 
 /**
@@ -30,8 +32,14 @@ public class ActorsGridViewAdapter extends ArrayAdapter<PersonPeople> {
     }
 
     static class ViewHolder {
+        @BindView(R.id.elementImageTextRow_poster)
         ImageView imageViewPoster;
+        @BindView(R.id.elementImageTextRow_text)
         TextView textViewName;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 
     @Override
@@ -42,10 +50,10 @@ public class ActorsGridViewAdapter extends ArrayAdapter<PersonPeople> {
         if (view == null) {
             LayoutInflater vi = LayoutInflater.from(getContext());
             view = vi.inflate(R.layout.element_image_with_text_row, null);
-            holder = new ViewHolder();
+            holder = new ViewHolder(view);
 
-            holder.imageViewPoster = (ImageView) view.findViewById(R.id.elementImageTextRow_poster);
-            holder.textViewName = (TextView) view.findViewById(R.id.elementImageTextRow_text);
+            //holder.imageViewPoster = (ImageView) view.findViewById(R.id.elementImageTextRow_poster);
+           // holder.textViewName = (TextView) view.findViewById(R.id.elementImageTextRow_text);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();

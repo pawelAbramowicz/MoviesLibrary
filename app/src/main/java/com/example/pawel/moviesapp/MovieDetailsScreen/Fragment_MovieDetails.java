@@ -1,4 +1,4 @@
-package com.example.pawel.moviesapp.MovieDetails;
+package com.example.pawel.moviesapp.MovieDetailsScreen;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pawel.moviesapp.R;
+import com.example.pawel.moviesapp.Utilities.InternetConnection;
 import com.example.pawel.moviesapp.Utilities.ItemCreatorOnUniqueList;
 import com.example.pawel.moviesapp.Utilities.ListConverterToString;
 import com.example.pawel.moviesapp.Utilities.Variables;
@@ -19,6 +21,8 @@ import com.example.pawel.moviesapp.Utilities.Variables;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbMovies;
 import info.movito.themoviedbapi.model.MovieDb;
@@ -30,9 +34,32 @@ public class Fragment_MovieDetails extends Fragment {
     private AsyncCaller asyncCaller;
     private updateFragments mCallback;
 
+    @BindView(R.id.titleResult)
+    TextView titleResult;
+    @BindView(R.id.originalTitleResult)
+    TextView originalTitleResult;
+    @BindView(R.id.productionAndTimeResult)
+    TextView productionAndTimeResult;
+    @BindView(R.id.genreResult)
+    TextView genreResult;
+    @BindView(R.id.descriptionResult)
+    TextView descriptionResult;
+    @BindView(R.id.countryResult)
+    TextView countryResult;
+    @BindView(R.id.boxOfficeResult)
+    TextView boxOfficeResult;
+    @BindView(R.id.ratingResult)
+    TextView ratingResult;
+    @BindView(R.id.languageResult)
+    TextView languageResult;
+    @BindView(R.id.imagePosterResult)
+    ImageView imagePosterResult;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_movie_details, parent, false);
+        View view = inflater.inflate(R.layout.fragment_movie_details, parent, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
@@ -42,8 +69,14 @@ public class Fragment_MovieDetails extends Fragment {
 
         int movieID = getActivity().getIntent().getIntExtra(Variables.INTENT_MOVIE_ID, 0);
         if (movieID != 0) {
-            asyncCaller = new AsyncCaller();
-            asyncCaller.execute(movieID);
+            //detect internet and show the data
+            if(InternetConnection.isNetworkStatusAvialable (getActivity().getApplicationContext())) {
+                asyncCaller = new AsyncCaller();
+                asyncCaller.execute(movieID);
+            } else {
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Please check your Internet Connection", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -75,31 +108,20 @@ public class Fragment_MovieDetails extends Fragment {
                 getActivity().setTitle(result.getTitle());
 
                 //set data for TextViews
-                ((TextView) getView().findViewById(R.id.wyniktytul)).setText                        //title
-                        (result.getTitle());
-                ((TextView) getView().findViewById(R.id.wynikoryginalnytytul)).setText              //original title
-                        ("(" + result.getOriginalTitle() + ")");
-                ((TextView) getView().findViewById(R.id.wynikrokprodukcjiiczas)).setText            //runtime
-                        (result.getReleaseDate() + "  " + result.getRuntime() + " min");
-                ((TextView) getView().findViewById(R.id.wynikgatunek)).setText                      //genre
-                        (ListConverterToString.genreListToString(result.getGenres()));
-                ((TextView) getView().findViewById(R.id.wynikopis)).setText                         //description
-                        (result.getOverview());
-                ((TextView) getView().findViewById(R.id.wynikKraj)).setText                         //production countries
-                        (getString(R.string.production) + " " + ListConverterToString.countryListToString(result.getProductionCountries()));
-                ((TextView) getView().findViewById(R.id.wynikBoxOffice)).setText                    //boxoffice
-                        (getString(R.string.boxOffice) + " " + ListConverterToString.budgetConvert(result.getBudget()));
-                ((TextView) getView().findViewById(R.id.wynikImdbID)).setText                       //vote average
-                        (getString(R.string.rating) + " " + String.valueOf(result.getVoteAverage()) + "/10");
-
+                titleResult.setText(result.getTitle());//title
+                originalTitleResult.setText("(" + result.getOriginalTitle() + ")"); //original title
+                productionAndTimeResult.setText(result.getReleaseDate() + "  " + result.getRuntime() + " min"); //runtime
+                genreResult.setText(ListConverterToString.genreListToString(result.getGenres()));//genre
+                descriptionResult.setText(result.getOverview()); //description
+                countryResult.setText(getString(R.string.production) + " " + ListConverterToString.countryListToString(result.getProductionCountries())); //production countries
+                boxOfficeResult.setText(getString(R.string.boxOffice) + " " + ListConverterToString.budgetConvert(result.getBudget()));  //boxoffice
+                ratingResult.setText(getString(R.string.rating) + " " + String.valueOf(result.getVoteAverage()) + "/10");  //vote average
                 Locale locale = new Locale(result.getOriginalLanguage(), "");
-                ((TextView) getView().findViewById(R.id.wynikJezyk)).setText                        //languages
-                        (getString(R.string.language) + " " + locale.getDisplayLanguage());
+                languageResult.setText(getString(R.string.language) + " " + locale.getDisplayLanguage());//languages
 
                 //set movie image and add listener to increase it after click
-                ImageView posterImageView = (ImageView) getView().findViewById(R.id.imagePoster);
                 ItemCreatorOnUniqueList itemCreatorOnUniqueList = new ItemCreatorOnUniqueList(getActivity());
-                itemCreatorOnUniqueList.setImage(posterImageView, result.getPosterPath());
+                itemCreatorOnUniqueList.setImage(imagePosterResult, result.getPosterPath());
                 itemCreatorOnUniqueList.addIncreasingImageListener(result.getPosterPath());
 
                 if (mCallback != null) {

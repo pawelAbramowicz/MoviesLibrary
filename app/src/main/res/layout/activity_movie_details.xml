@@ -25,7 +25,7 @@
 
             <fragment
                 android:id="@+id/activityMovieDetails_detailsFragment"
-                android:name="com.example.pawel.moviesapp.MovieDetails.Fragment_MovieDetails"
+                android:name="com.example.pawel.moviesapp.MovieDetailsScreen.Fragment_MovieDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
@@ -33,21 +33,21 @@
 
             <fragment
                 android:id="@+id/activityMovieDetails_actorsFragment"
-                android:name="com.example.pawel.moviesapp.MovieDetails.Fragment_ActorsInMovieDetails"
+                android:name="com.example.pawel.moviesapp.MovieDetailsScreen.Fragment_ActorsInMovieDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <fragment
                 android:id="@+id/activityMovieDetails_similarFragment"
-                android:name="com.example.pawel.moviesapp.MovieDetails.Fragment_SimilarMovies"
+                android:name="com.example.pawel.moviesapp.MovieDetailsScreen.Fragment_SimilarMovies"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <fragment
                 android:id="@+id/activityMovieDetails_videosFramgnet"
-                android:name="com.example.pawel.moviesapp.MovieDetails.Fragment_MovieVideos"
+                android:name="com.example.pawel.moviesapp.MovieDetailsScreen.Fragment_MovieVideos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />

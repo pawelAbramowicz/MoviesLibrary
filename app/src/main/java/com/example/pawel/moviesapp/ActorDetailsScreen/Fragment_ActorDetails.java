@@ -1,4 +1,4 @@
-package com.example.pawel.moviesapp.ActorDetails;
+package com.example.pawel.moviesapp.ActorDetailsScreen;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -10,11 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pawel.moviesapp.R;
+import com.example.pawel.moviesapp.Utilities.InternetConnection;
 import com.example.pawel.moviesapp.Utilities.ItemCreatorOnUniqueList;
 import com.example.pawel.moviesapp.Utilities.Variables;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbPeople;
 import info.movito.themoviedbapi.model.people.PersonPeople;
@@ -28,9 +32,22 @@ public class Fragment_ActorDetails extends Fragment {
     private AsyncCaller asyncCaller;
     private updateFragments mCallback;
 
+    @BindView(R.id.actorDetails_name)
+      TextView name;
+    @BindView(R.id.actorDetails_biography)
+      TextView biography;
+    @BindView(R.id.actorDetails_birthday)
+      TextView birthday;
+    @BindView(R.id.actorDetails_birthplace)
+      TextView birthplace;
+    @BindView(R.id.actorDetails_imagePoster)
+      ImageView imagePoster;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_actor_details, parent, false);
+        View view = inflater.inflate(R.layout.fragment_actor_details, parent, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 
     @Override
@@ -40,8 +57,15 @@ public class Fragment_ActorDetails extends Fragment {
 
         int movieId = getActivity().getIntent().getIntExtra(Variables.INTENT_ACTOR_ID, 0);
         if (movieId != 0) {
-            asyncCaller = new AsyncCaller();
-            asyncCaller.execute(movieId);
+
+            //detect internet and show the data
+            if(InternetConnection.isNetworkStatusAvialable (getActivity().getApplicationContext())) {
+                asyncCaller = new AsyncCaller();
+                asyncCaller.execute(movieId);
+            } else {
+                Toast.makeText(getActivity().getApplicationContext(),
+                        "Please check your Internet Connection", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -66,6 +90,7 @@ public class Fragment_ActorDetails extends Fragment {
             return null;
         }
 
+
         @Override
         protected void onPostExecute(final PersonPeople result) {
             if (!asyncCaller.isCancelled() && result != null) {
@@ -73,20 +98,17 @@ public class Fragment_ActorDetails extends Fragment {
                 getActivity().setTitle(result.getName());
 
                 //set data for TextViews
-                ((TextView) getView().findViewById(R.id.actorDetails_name)).setText(result.getName());
-                ((TextView) getView().findViewById(R.id.actorDetails_biography)).setText(result.getBiography());
-                ((TextView) getView().findViewById(R.id.actorDetails_birthday)).setText(result.getBirthday());
-                ((TextView) getView().findViewById(R.id.actorDetails_birthplace)).setText(result.getBirthplace());
-
+                name.setText(result.getName());
+                biography.setText(result.getBiography());
+                birthday.setText(result.getBirthday());
+                birthplace.setText(result.getBirthplace());
                 if (result.getDeathday() != null && !result.getDeathday().equals("")) {
-                    ((TextView) getView().findViewById(R.id.actorDetails_birthday)).setText
-                            (result.getBirthday() + " - " + result.getDeathday());
+                    birthday.setText(result.getBirthday() + " - " + result.getDeathday());
                 }
 
-                //set actor image
-                ImageView posterImageView = (ImageView) getView().findViewById(R.id.actorDetails_imagePoster);
+                //set actor image and add listener to increase it after click
                 ItemCreatorOnUniqueList itemCreatorOnUniqueList = new ItemCreatorOnUniqueList(getActivity());
-                itemCreatorOnUniqueList.setImage(posterImageView, result.getProfilePath());
+                itemCreatorOnUniqueList.setImage(imagePoster, result.getProfilePath());
                 itemCreatorOnUniqueList.addIncreasingImageListener(result.getProfilePath());
 
                 if (mCallback != null) {

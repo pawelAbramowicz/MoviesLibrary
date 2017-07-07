@@ -14,7 +14,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.example.pawel.moviesapp.MovieDetails.Activity_MovieDetails;
+import com.example.pawel.moviesapp.MovieDetailsScreen.Activity_MovieDetails;
 import com.example.pawel.moviesapp.R;
 import com.example.pawel.moviesapp.Utilities.DataBase;
 import com.example.pawel.moviesapp.Utilities.Models.MovieModel;
@@ -23,6 +23,9 @@ import com.example.pawel.moviesapp.Utilities.Variables;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static android.content.ContentValues.TAG;
 
@@ -33,18 +36,27 @@ import static android.content.ContentValues.TAG;
 public class Fragment_WatchList extends Fragment {
 
     private MoviesGridViewAdapter customAdapter;
-    private GridView gridView;
     private List<MovieModel> movieModels = new ArrayList<MovieModel>();
+    @BindView(R.id.watchList_gridView)
+    GridView gridView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_watch_list, parent, false);
+
+        View view = inflater.inflate(R.layout.fragment_watch_list, parent, false);//
+        ButterKnife.bind(this, view);//
+        return view; ///
+///
+
+
+/// return inflater.inflate(R.layout.fragment_watch_list, parent, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-        gridView = (GridView) getView().findViewById(R.id.watchList_gridView);
+
+        // gridView = (GridView) getView().findViewById(R.id.watchList_gridView);
         movieModels = getWatchListFromDB();
 
         customAdapter = new MoviesGridViewAdapter(getActivity().getApplicationContext(), R.layout.element_image_with_text_row, movieModels);

@@ -12,6 +12,7 @@ import com.example.pawel.moviesapp.R;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import info.movito.themoviedbapi.model.MovieDb;
@@ -19,7 +20,7 @@ import pl.droidsonroids.gif.GifDrawable;
 
 public class ListAdapter extends ArrayAdapter<MovieDb> {
 
-   private Context context;
+    private Context context;
 
     public ListAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);

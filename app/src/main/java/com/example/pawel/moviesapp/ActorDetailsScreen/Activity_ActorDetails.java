@@ -1,4 +1,4 @@
-package com.example.pawel.moviesapp.ActorDetails;
+package com.example.pawel.moviesapp.ActorDetailsScreen;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -13,18 +13,23 @@ import com.example.pawel.moviesapp.R;
 
 public class Activity_ActorDetails extends AppCompatActivity implements Fragment_ActorDetails.updateFragments {
 
-    private Fragment_ActorDetails actorDetails_Fragment;
-    private Fragment_ActorPlayedInMovie actorPlayedInMovies_Fragment;
-    private Fragment_ActorPhotos actorPhotos_Fragment;
-    private Fragment_Loading_Page loadingPage_Fragment;
+    // @BindView (R.id.activityActorDetails_actorFragment)
+    Fragment_ActorDetails actorDetails_Fragment;
+   //   @BindView(R.id.activityActorDetails_actorPlayedInMoviesFragment)
+    Fragment_ActorPlayedInMovie actorPlayedInMovies_Fragment;
+    //   @BindView(R.id.activityActorDetails_actorImagesFragment)
+    Fragment_ActorPhotos actorPhotos_Fragment;
+   //   @BindView(R.id.activityActorDetails_loadingFragment)
+    Fragment_Loading_Page loadingPage_Fragment;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actor_details);
+        //  ButterKnife.bind(this);
 
-        actorDetails_Fragment = (Fragment_ActorDetails) getFragmentManager().findFragmentById(R.id.activityActorDetails_actorFragment);
+         actorDetails_Fragment = (Fragment_ActorDetails) getFragmentManager().findFragmentById(R.id.activityActorDetails_actorFragment);
         actorPlayedInMovies_Fragment = (Fragment_ActorPlayedInMovie) getFragmentManager().findFragmentById(R.id.activityActorDetails_actorPlayedInMoviesFragment);
         actorPhotos_Fragment = (Fragment_ActorPhotos) getFragmentManager().findFragmentById(R.id.activityActorDetails_actorImagesFragment);
         loadingPage_Fragment = (Fragment_Loading_Page) getFragmentManager().findFragmentById(R.id.activityActorDetails_loadingFragment);

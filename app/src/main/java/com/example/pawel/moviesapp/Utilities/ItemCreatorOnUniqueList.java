@@ -2,6 +2,7 @@ package com.example.pawel.moviesapp.Utilities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -15,6 +16,9 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pl.droidsonroids.gif.GifDrawable;
 
 /**
@@ -26,17 +30,12 @@ public class ItemCreatorOnUniqueList {
     private LinearLayout yourLayout;
     private LayoutInflater inflater;
     private ImageView imageViewPoster;
-
-    public ItemCreatorOnUniqueList(LinearLayout yourLayout, Activity activity) {
-        this.activity = activity;
-        this.yourLayout = yourLayout;
-        inflater = LayoutInflater.from(activity.getApplicationContext());
-    }
+    private Dialog dialogWindow;
 
     public ItemCreatorOnUniqueList(Activity activity) {
         this.activity = activity;
+        ButterKnife.bind(activity);
     }
-
 
     public void setImage(ImageView imageView, String imagePath) {
         imageViewPoster = imageView;
@@ -52,30 +51,53 @@ public class ItemCreatorOnUniqueList {
                 placeholder(gifFromAssets).into(imageView);
     }
 
-    /**
-     * @param text      a title below image
-     * @param imagePath path to the image
-     * @return
-     */
-    public View createItem(String text, String imagePath) {
-        View view = inflater.inflate(R.layout.element_image_with_text_row, yourLayout, false);
-        imageViewPoster = (ImageView) view.findViewById(R.id.elementImageTextRow_poster);
-        TextView textViewName = (TextView) view.findViewById(R.id.elementImageTextRow_text);
+    public void addIncreasingImageListener(View view, final String path) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        textViewName.setText(text);
+                dialogWindow = new Dialog(activity);
+                //set no title on dialog window
+                dialogWindow.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+                //set layout for dialog window
+                dialogWindow.setContentView(activity.getLayoutInflater().inflate(R.layout.dialog_image_increase, null));
 
-        GifDrawable gifFromAssets = null;
-        try {
-            gifFromAssets = new GifDrawable(activity.getResources(), Variables.LOADING_WHEELE_ID);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                ImageView imageViewIncreased = (ImageView) dialogWindow.findViewById(R.id.dialogImageIncrease_increasedImage);
+                String imagePath = Variables.IMAGE_ADDRESS + Variables.IMAGE_SIZE_w780 + path;
 
-        String path = Variables.IMAGE_ADDRESS + Variables.IMAGE_SIZE_w342 + imagePath;
-        Picasso.with(activity.getApplicationContext()).load(path).error(R.drawable.not_available_image).
-                placeholder(gifFromAssets).into(imageViewPoster);
+                GifDrawable gifFromAssets = null;
+                try {
+                    gifFromAssets = new GifDrawable(activity.getResources(), Variables.LOADING_WHEELE_ID);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-        return view;
+                Picasso.with(activity.getApplicationContext()).load(imagePath).error(R.drawable.not_available_image)
+                        .placeholder(gifFromAssets).into(imageViewIncreased);
+
+                //   setImage(imageViewIncreased,imagePath);
+
+                //dismiss dialog on image click
+                imageViewIncreased.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogWindow.dismiss();
+                    }
+                });
+
+                //dismiss dialog on button click
+                Button okButton = (Button) dialogWindow.findViewById(R.id.dialogImageIncreaseZ_buttonCloseImage);
+                okButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogWindow.dismiss();
+                    }
+                });
+
+                //display dialog
+                dialogWindow.show();
+            }
+        });
     }
 
 
@@ -84,7 +106,7 @@ public class ItemCreatorOnUniqueList {
             @Override
             public void onClick(View view) {
 
-                final Dialog dialogWindow = new Dialog(activity);
+                dialogWindow = new Dialog(activity);
                 //set no title on dialog window
                 dialogWindow.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
                 //set layout for dialog window

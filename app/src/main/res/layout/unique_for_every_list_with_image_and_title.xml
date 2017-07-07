@@ -4,20 +4,27 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-<!--unique zmienic na uniwersal-->
+    <!--unique zmienic na uniwersal-->
     <TextView
         android:id="@+id/unique_title_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/HeadlineTextViewStyle"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
-    <HorizontalScrollView
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+    <!--HorizontalScrollView
         android:id="@+id/unique_horizontalScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-<!--android:background="@drawable/back"   border-->
+        android:layout_height="wrap_content">
         <LinearLayout
             android:id="@+id/unique_linearLayout"
             android:layout_width="wrap_content"
@@ -27,5 +34,6 @@
 
         </LinearLayout>
 
-    </HorizontalScrollView>
+    </HorizontalScrollView-->
 </LinearLayout>
+
